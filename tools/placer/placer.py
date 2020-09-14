@@ -7,6 +7,7 @@ app = FlaskAPI(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def placerRunning():
+    print(request.args) 
     return {'request data': request.data }
 
 @app.route("/item/<int:id>", methods=['GET'])
@@ -15,12 +16,29 @@ def getItemById(id):
 
 @app.route("/item", methods=['GET','POST'])
 def addItem():
-    if request.method == 'POST':
-        record = database.mongoCollections['ITEMS'].insert_one( request.data )
-        return { 'inserted_id:' : record.inserted_id }
-    else:
-        return {'request data': request.data }
+    record = database.mongoCollections['ITEMS'].insert_one( parseItemFromArgs(request.args) )
+    return { 'inserted_id:' : record.inserted_id }
 
 @app.route("/itemplacer", methods=['GET'])
 def itemplacer():
     return render_template('itemPlacer.html.j2')
+
+def parseItemFromArgs(args):
+    retDict = {}
+
+    for arg in args:
+        retDict[arg] = args[arg]
+    retDict['_id'] = int(retDict['_id'])
+
+    if retDict['short'] == '':
+        retDict['short'] = retDict['name']
+    if retDict['long'] == '':
+        retDict['long'] = "This is a " + retDict['name']
+    if retDict['img_small'] == '':
+        retDict['img_small'] = retDict['name'] + "_small.png"
+    if retDict['img_large'] == '':
+        retDict['img_large'] = retDict['name'] + "_large.png"
+    if retDict['visibility'] == '':
+        retDict['visibility'] = 'never'
+
+    return retDict
