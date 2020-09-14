@@ -1,0 +1,59 @@
+{% extends "base.html.j2" %}
+{% block head %}
+{{ super() }}
+<title>Item Viewer</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="_id">_id</label>
+            <input type="text" class="form-control" id="_id">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="short">Short Description</label>
+            <input type="text" class="form-control" id="short">
+        </div>
+        <div class="form-group">
+            <label for="long">Long Description</label>
+            <input type="text" class="form-control" id="long">
+        </div>
+        <div class="form-group">
+            <label for="img_small">Small Image</label>
+            <input type="text" class="form-control" id="img_small">
+        </div>
+        <div class="form-group">
+            <label for="img_large">Large Image</label>
+            <input type="text" class="form-control" id="img_large">
+        </div>
+        <div class="form-group">
+            <label>Visibility</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="visibility" id="visibility1" value="always" checked>
+                <label class="form-check-label" for="visibility1">
+                    Always
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="visibility" id="visibility2" value="never">
+                <label class="form-check-label" for="visibility2">
+                    Never
+                </label>
+            </div>
+            <div class="form-check disabled">
+                <input class="form-check-input" type="radio" name="visibility" id="visibility3" value="conditional">
+                <label class="form-check-label" for="visibility3">
+                    Conditional
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{{ super() }}
+{% endblock %}

@@ -5,5 +5,5 @@ from flask_api import FlaskAPI
 app = FlaskAPI(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
-def upAndRunning():
+def helloWorld():
     return {'request data': request.data }
