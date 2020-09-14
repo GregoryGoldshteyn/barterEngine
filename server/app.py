@@ -1,4 +1,4 @@
-import database
+import common.database
 from flask import request
 from flask_api import FlaskAPI
 
