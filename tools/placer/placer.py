@@ -6,20 +6,26 @@ from datetime import datetime
 
 app = FlaskAPI(__name__)
 
+# Test route to prove app is running
+# Just echos back the request data
+
 @app.route("/", methods=['GET', 'POST'])
-def placerRunning():
+def echoData():
     return {'request data': request.data }
 
 # Item operations
 
 @app.route("/item/<int:id>", methods=['GET'])
 def getItemById(id):
-    return render_template('itemViewer.html.j2', item=database.mongoCollections['ITEMS'].find_one( {'_id' : id} ))
+    return render_template('itemViewer.html.j2', item=database.getObjectFromCollectionById('ITEMS', id))
 
 @app.route("/item", methods=['GET','POST'])
 def addItem():
-    record = database.mongoCollections['ITEMS'].insert_one( parseItemFromArgs(request.args) )
-    return { 'inserted_id:' : record.inserted_id }
+    if request.method == 'POST':
+        record = database.addObjectToCollection('ITEMS', parseItemFromArgs(request.args))
+        return { 'inserted_id:' : record }
+    else:
+        return database.getAllObjectsInCollection('ITEMS')
 
 @app.route("/itemplacer", methods=['GET'])
 def itemplacer():
@@ -49,12 +55,15 @@ def parseItemFromArgs(args):
 
 @app.route("/trade/<int:id>", methods=['GET'])
 def getTradeById(id):
-    return render_template('tradeViewer.html.j2', trade=database.mongoCollections['TRADES'].find_one( {'_id' : id} ))
+    return render_template('tradeViewer.html.j2', trade=database.getObjectFromCollectionById('TRADES', id))
 
 @app.route("/trade", methods=['GET','POST'])
 def addTrade():
-    record = database.mongoCollections['TRADES'].insert_one( parseTradeFromArgs(request.args) )
-    return { 'inserted_id:' : record.inserted_id }
+    if request.method == 'POST':
+        record = addObjectToCollection('TRADES', parseItemFromArgs(request.args))
+        return { 'inserted_id:' : record }
+    else:
+        return database.getAllObjectsInCollection('TRADES')
 
 @app.route("/tradeplacer", methods=['GET'])
 def tradeplacer():
@@ -78,12 +87,15 @@ def parseTradeFromArgs(args):
 
 @app.route("/story/<int:id>", methods=['GET'])
 def getStoryById(id):
-    return render_template('storyViewer.html.j2', story=database.mongoCollections['STORIES'].find_one( {'_id' : id} ))
+    return render_template('storyViewer.html.j2', story=database.getObjectFromCollectionById('STORIES', id))
 
 @app.route("/story", methods=['GET','POST'])
 def addStory():
-    record = database.mongoCollections['STORIES'].insert_one( parseStoryFromArgs(request.args) )
-    return { 'inserted_id:' : record.inserted_id }
+    if request.method == 'POST':
+        record = addObjectToCollection('STORIES', parseItemFromArgs(request.args))
+        return { 'inserted_id:' : record }
+    else:
+        return database.getAllObjectsInCollection('STORIES')
 
 @app.route("/storyplacer", methods=['GET'])
 def storyplacer():
@@ -109,12 +121,15 @@ def parseStoryFromArgs(args):
 
 @app.route("/hub/<int:id>", methods=['GET'])
 def getHubById(id):
-    return render_template('hubViewer.html.j2', hub=database.mongoCollections['HUBS'].find_one( {'_id' : id} ))
+    return render_template('hubViewer.html.j2', hub=database.getObjectFromCollectionById('HUBS', id))
 
 @app.route("/hub", methods=['GET','POST'])
 def addHub():
-    record = database.mongoCollections['HUBS'].insert_one( parseHubFromArgs(request.args) )
-    return { 'inserted_id:' : record.inserted_id }
+    if request.method == 'POST':
+        record = addObjectToCollection('HUBS', parseItemFromArgs(request.args))
+        return { 'inserted_id:' : record }
+    else:
+        return database.getAllObjectsInCollection('HUBS')
 
 @app.route("/hubplacer", methods=['GET'])
 def hubplacer():
