@@ -1,38 +1,42 @@
 {% extends "base.html.j2" %}
 {% block head %}
 {{ super() }}
-<title>Item Viewer</title>
+<title>Hub Viewer</title>
 {% endblock %}
 
 {% block body %}
 <div class="container-fluid">
     <div class="container">
-        <h1>Item Viewer</h1>
+        <h1>Hub Viewer</h1>
         <div class="row">
             <div class="col-xl">
-                <h2>Item Id: {{ item._id }}</h2>
+                <h2>Hub Id: {{ hub._id }}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-xl">
-                <h2>Item Name: {{ item.name }}</h2>
+                <h2>Hub Name: {{ hub.name }}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-md">
                 <h2>Short Description</h2>
-                <p id="short_desc">{{ item.short }}</p>
+                <p id="short_desc">{{ hub.short }}</p>
                 <h2>Visibility</h2>
-                <p id="visibility">{{ item.visibility }}</p>
+                <p id="visibility">{{ hub.visibility }}</p>
             </div>
             <div class="col-md">
                 <h2>Long Description</h2>
-                <p id="long_desc">{{ item.long }}</p>
+                <p id="long_desc">{{ hub.long }}</p>
             </div>
             <div class="col-md">
+                <h2>Stories Available</h2>
+                <p id="stories">{{ hub.stories }}</p>
+                <h2>Hubs Available</h2>
+                <p id="hubs">{{ hub.hubs }}</p>
                 <h2>Images</h2>
-                <img id="image_small" src="{{ item.image_small }}"/>
-                <img id="image_large" src="{{ item.image_large }}"/>
+                <img id="image_small" alt="{{ hub.image_small }}" src="{{ hub.image_small }}"/>
+                <img id="image_large" alt="{{ hub.image_large }}" src="{{ hub.image_large }}"/>
             </div>
         </div>
     </div>

@@ -1,12 +1,12 @@
 {% extends "base.html.j2" %}
 {% block head %}
 {{ super() }}
-<title>Item Placer</title>
+<title>Story Placer</title>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-    <form target="_blank" action="http://localhost:5000/item" action="POST" enctype='application/json'>
+    <form target="_blank" action="http://localhost:5000/story" action="POST" enctype='application/json'>
         <label for="_id">_id</label>
         <input type="text" class="form-control" name="_id">
 
@@ -24,6 +24,12 @@
 
         <label for="img_large">Large Image</label>
         <input type="text" class="form-control" name="img_large">
+
+        <label for="trades">Trades Linked</label>
+        <input type="text" class="form-control" name="trades">
+
+        <label for="stories">Stories Linked</label>
+        <input type="text" class="form-control" name="stories">
 
         <label>Visibility</label>
         <div class="form-check">
