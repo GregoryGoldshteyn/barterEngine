@@ -1,0 +1,38 @@
+{% extends "base.html.j2" %}
+{% block head %}
+{{ super() }}
+<title>Player Viewer</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="container">
+        <h1>Hub Viewer</h1>
+        <div class="row">
+            <div class="col-xl">
+                <h2>Player Id: {{ player._id }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl">
+                <h2>Player Name: {{ player.name }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md">
+                <h2>Inventory</h2>
+                <p id="inventory">{{ player.inventory }}</p>
+            </div>
+            <div class="col-md">
+                <h2>Stories Completed</h2>
+                <p id="stories">{{ player.stories }}</p>
+            </div>
+            <div class="col-md">
+                <h2>Hubs Visited</h2>
+                <p id="hubs">{{ player.hubs }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{{ super() }}
+{% endblock %}

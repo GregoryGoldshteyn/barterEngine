@@ -25,15 +25,20 @@ def loadCollectionsFromDatabase():
 def loadCollectionsFromFile(filename):
     return json.loads(open(filename).read())
 
-def writeCollectionsToFile(filename):
+def writeCollectionsToFile(filename=CONSTANTS.COLLECTIONS_JSON_FILE):
     with open(filename, 'w') as json_file:
-        json.dump(localCollections, json_file)
+        json.dump(localCollections, json_file, indent=2)
+    return {"saveTo": filename}
 
 def getObjectFromCollectionById(collection, id):
     if CONSTANTS.USE_DB:
         return mongoCollections[collection].find_one( {'_id' : id} )
     else:
-        return localCollections[collection][str(id)]
+        l = list(filter(lambda x: x['_id'] == id ,localCollections[collection]))
+        if len(l) > 0:
+            return l[0]
+        else:
+            return {"404", "Item not found"}
 
 def getAllObjectsInCollection(collection):
     if CONSTANTS.USE_DB:
@@ -42,11 +47,11 @@ def getAllObjectsInCollection(collection):
             retDict[entry['_id']] = entry
         return retDict
     else:
-        return localCollections[collection]
+        return localCollections[collection] if collection in localCollections else {}
 
 def addObjectToCollection(collection, obj):
     if CONSTANTS.USE_DB:
-        database.mongoCollections[collection].insert_one( parseItemFromArgs(obj) )
+        database.mongoCollections[collection].insert_one( obj )
     else:
-        localCollections[collection][obj['_id']] = obj
+        localCollections[collection] += [obj]
     return obj['_id']

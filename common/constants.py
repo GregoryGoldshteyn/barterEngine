@@ -12,7 +12,8 @@ COLLECTIONS = [
     "ITEMS",
     "TRADES",
     "STORIES",
-    "HUBS"
+    "HUBS",
+    "PLAYERS"
 ]
 
 # File name for local files

@@ -1,0 +1,29 @@
+{% extends "base.html.j2" %}
+{% block head %}
+{{ super() }}
+<title>Player Placer</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <form target="_blank" action="http://localhost:5000/player" method="POST" enctype='application/json'>
+        <label for="_id">_id</label>
+        <input type="text" class="form-control" name="_id">
+
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name">
+
+        <label for="inventory">Inventory</label>
+        <input type="text" class="form-control" name="inventory">
+
+        <label for="stories">Story States</label>
+        <input type="text" class="form-control" name="stories">
+
+        <label for="hubs">Hubs Explored</label>
+        <input type="text" class="form-control" name="hubs">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{{ super() }}
+{% endblock %}
