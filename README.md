@@ -10,6 +10,8 @@ Requires
 
 - Server
   The game engine itself. Player actions are sent as requests to the server, which takes actions based on the current state of the game.
+- Client
+  The way the player interacts with the server
 - Tools
   A few tools to help develop games for this engine. Includes tools to add and view game objects.
 - LocalDB
@@ -24,7 +26,7 @@ There are four basic objects that the player interacts with to play games create
 - Trades
   Trades are the exchange of some collection of items for another collection of items. May progress a story, or be repeatable (like a shop interaction)
 - Stories
-  Stories offer trades in exchange for more story. As trades are made, stories progress. Can be repeatable, or have a conclusion
+  Stories offer trades in exchange for more story. As trades are made, stories progress. Can be repeatable (like a shop), or have a conclusion
 - Hubs
   Hubs represent real world places in which stories can be found. There may be a cost (trade) associated with entering a hub
 
