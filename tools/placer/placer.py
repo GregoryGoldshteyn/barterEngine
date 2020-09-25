@@ -119,7 +119,7 @@ def parseStoryFromArgs(args):
     if retDict['long'] == '':
         retDict['long'] = "This is the story of " + retDict['name']
 
-    formatListStringInDictAsJson(retDict, 'stories')
+    formatListStringInDictAsJson(retDict, 'trade_to_story')
 
     return retDict
 
@@ -184,8 +184,8 @@ def parsePlayerFromArgs(args):
         retDict[arg] = args[arg]
 
     formatListStringInDictAsJson(retDict, 'inventory')
-    formatListStringInDictAsJson(retDict, 'stories')
-    formatListStringInDictAsJson(retDict, 'hubs')
+    formatListStringInDictAsJson(retDict, 'story_states')
+    formatListStringInDictAsJson(retDict, 'hub_states')
 
     print(retDict)
 
