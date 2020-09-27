@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
-    <app-hub-viewer></app-hub-viewer>
+    <app-hub-viewer [playerData]="playerData"></app-hub-viewer>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <app-inventory></app-inventory>
+      <app-inventory [playerData]="playerData"></app-inventory>
     </div>
     <div class="col-md-6">
-      <app-story-viewer></app-story-viewer>
+      <app-story-viewer [playerData]="playerData"></app-story-viewer>
     </div>
   </div>
 </div>

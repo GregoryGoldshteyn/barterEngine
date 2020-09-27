@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-hub-viewer',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hub-viewer.component.css']
 })
 export class HubViewerComponent implements OnInit {
+
+  @Input() playerData;
 
   constructor() { }
 

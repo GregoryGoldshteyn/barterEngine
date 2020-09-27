@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-inventory',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent implements OnInit {
+
+  @Input() playerData;
 
   constructor() { }
 
