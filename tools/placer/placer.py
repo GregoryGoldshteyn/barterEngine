@@ -1,4 +1,5 @@
 from common import database
+from flask import Flask
 from flask import request
 from flask import render_template
 from flask_api import FlaskAPI
@@ -91,7 +92,9 @@ def getTradeById(id):
 @cross_origin()
 def addTrade():
     if request.method == 'POST':
-        record = database.addObjectToCollection('TRADES', parseTradeFromArgs(request.form.to_dict()))
+        trade = parseTradeFromArgs(request.form.to_dict())
+        print(trade)
+        record = database.addObjectToCollection('TRADES', trade)
         return { 'inserted_id:' : record }
     else:
         return database.getAllObjectsInCollection('TRADES')
@@ -108,6 +111,9 @@ def parseTradeFromArgs(args):
         retDict[arg] = args[arg]
 
     setDefaultPropertiesIfNotSet(retDict)
+
+    formatListStringInDictAsJson(retDict, "items_in")
+    formatListStringInDictAsJson(retDict, "items_out")
 
     return retDict
 
@@ -207,6 +213,21 @@ def getPlayerViewById(id):
 @cross_origin()
 def getPlayerById(id):
     return database.getObjectFromCollectionById('PLAYERS', id)
+
+@app.route("/player/<id>/hubs", methods=['GET'])
+@cross_origin()
+def getPlayerHubsById(id):
+    return database.getObjectFromCollectionById('PLAYERS', id)['hub_states']
+
+@app.route("/player/<id>/stories", methods=['GET'])
+@cross_origin()
+def getPlayerStoriesById(id):
+    return database.getObjectFromCollectionById('PLAYERS', id)['story_states']
+
+@app.route("/player/<id>/inventory", methods=['GET'])
+@cross_origin()
+def getPlayerInventoryById(id):
+    return database.getObjectFromCollectionById('PLAYERS', id)['inventory']
 
 @app.route("/player", methods=['GET','POST'])
 @cross_origin()

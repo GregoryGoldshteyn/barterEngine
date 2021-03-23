@@ -19,8 +19,47 @@
       "visibility": "always"
     }
   ],
-  "TRADES": [],
-  "STORIES": [],
+  "TRADES": [
+    {
+      "_id": "0",
+      "name": "Work",
+      "short": "Spend time for money",
+      "items_in": {
+        "1": "8"
+      },
+      "items_out": {
+        "2": "90"
+      },
+      "visibility": "always"
+    },
+    {
+      "_id": "1",
+      "name": "Buyback",
+      "short": "Buyback some time",
+      "items_in": {
+        "2": "1000"
+      },
+      "items_out": {
+        "1": "1"
+      },
+      "visibility": "always"
+    }
+  ],
+  "STORIES": [
+    {
+      "_id": "0",
+      "name": "Work for a living",
+      "short": "Work work",
+      "long": "work work work work",
+      "img_small": "",
+      "img_large": "",
+      "trade_to_story": [
+        0,
+        0
+      ],
+      "visibility": "always"
+    }
+  ],
   "HUBS": [],
   "PLAYERS": [
     {
@@ -31,13 +70,13 @@
         "2": "500"
       },
       "story_states": {
-        "1":"0",
-        "2":"1",
-        "3":"1"
+        "1": "0",
+        "2": "1",
+        "3": "1"
       },
       "hub_states": {
-        "1" : "1",
-        "2" : "0"
+        "1": "1",
+        "2": "0"
       }
     }
   ]
