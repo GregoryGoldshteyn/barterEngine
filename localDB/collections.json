@@ -21,7 +21,7 @@
   ],
   "TRADES": [
     {
-      "_id": "0",
+      "_id": "10",
       "name": "Work",
       "short": "Spend time for money",
       "items_in": {
@@ -33,7 +33,7 @@
       "visibility": "always"
     },
     {
-      "_id": "1",
+      "_id": "11",
       "name": "Buyback",
       "short": "Buyback some time",
       "items_in": {
@@ -42,6 +42,22 @@
       "items_out": {
         "1": "1"
       },
+      "visibility": "always"
+    },
+    {
+      "_id": "0",
+      "name": "Exit",
+      "short": "Exit",
+      "items_in": {},
+      "items_out": {},
+      "visibility": "always"
+    },
+    {
+      "_id": "1",
+      "name": "Continue",
+      "short": "Continue",
+      "items_in": {},
+      "items_out": {},
       "visibility": "always"
     }
   ],
@@ -53,10 +69,10 @@
       "long": "work work work work",
       "img_small": "",
       "img_large": "",
-      "trade_to_story": [
-        0,
-        0
-      ],
+      "trade_to_story": {
+        "10": "0",
+        "11": "0"
+      },
       "visibility": "always"
     }
   ],
@@ -71,8 +87,8 @@
       },
       "story_states": {
         "1": "0",
-        "2": "1",
-        "3": "1"
+        "2": "0",
+        "3": "0"
       },
       "hub_states": {
         "1": "1",
