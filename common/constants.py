@@ -17,4 +17,4 @@ COLLECTIONS = [
 ]
 
 # File name for local files
-COLLECTIONS_JSON_FILE = "localDB/collections.json"
+COLLECTIONS_JSON_FILE = "localDB/testDatabases/lemonade.json" # = "localDB/collections.json"

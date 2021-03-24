@@ -1,0 +1,139 @@
+{
+  "ITEMS": [
+    {
+      "_id": "1",
+      "name": "Quarter",
+      "short": "25 Cents",
+      "long": "A small metal disc. They tend to have an embossment of George Washington on one side and an eagle on the other, though other kinds exist. Worth 25 Cents, or one quarter of a dollar, from which it gets its name",
+      "img_small": "Quarter_small.png",
+      "img_large": "Quarter_large.png",
+      "visibility": "always"
+    },
+    {
+      "_id": "2",
+      "name": "Lemonade",
+      "short": "Cold and refreshing!",
+      "long": "Ice water, lemons, and sugar. The homemade variety has a bit of lemon pulp in it. The water is too cold for all the sugar to dissolve and makes a scraping sound when your straw rubs on the bottom of the cup",
+      "img_small": "Lemonade_small.png",
+      "img_large": "Lemonade_large.png",
+      "visibility": "always"
+    },
+    {
+      "_id": "3",
+      "name": "Paris the Bear",
+      "short": "Your sister's teddy bear",
+      "long": "A small stuffed bear. It's a bit faded from age and many washings, most of its fuzzy exterior has worn down to a flat cloth. Paris was originally a present for her 3rd birthday. The two have been inseparable ever since",
+      "img_small": "Paris the Bear_small.png",
+      "img_large": "Paris the Bear_large.png",
+      "visibility": "always"
+    }
+  ],
+  "TRADES": [
+    {
+      "_id": "0",
+      "name": "Exit",
+      "short": "Exit to hub",
+      "items_in": {},
+      "items_out": {},
+      "visibility": "always"
+    },
+    {
+      "_id": "1",
+      "name": "Continue",
+      "short": "Continue",
+      "items_in": {},
+      "items_out": {},
+      "visibility": "always"
+    },
+    {
+      "_id": "10",
+      "name": "Buy Lemonade",
+      "short": "Perfect for a hot summer day",
+      "items_in": {
+        "1": "3"
+      },
+      "items_out": {
+        "2": "1"
+      },
+      "visibility": "always"
+    },
+    {
+      "_id": "11",
+      "name": "Give bear",
+      "short": "Give Paris to your sister",
+      "items_in": {
+        "3": "1"
+      },
+      "items_out": {},
+      "visibility": "always"
+    },
+    {
+      "_id": "12",
+      "name": "Get bear",
+      "short": "Pick Paris up off the lawn",
+      "items_in": {},
+      "items_out": {
+        "3": "1"
+      },
+      "visibility": "always"
+    }
+  ],
+  "STORIES": [
+    {
+      "_id": "1",
+      "name": "Lemonade from Morgan",
+      "short": "Visit your sister's lemonade stand",
+      "long": "TBW",
+      "img_small": "",
+      "img_large": "",
+      "trade_to_story": {
+        "10": "0",
+        "0": "0",
+        "1": "2"
+      },
+      "visibility": "always"
+    },
+    {
+      "_id": "2",
+      "name": "A Missing Bear",
+      "short": "Paris is missing!",
+      "long": "TBW",
+      "img_small": "",
+      "img_large": "",
+      "trade_to_story": {
+        "1": "3"
+      },
+      "visibility": "always"
+    },
+    {
+      "_id": "3",
+      "name": "A Missing Bear",
+      "short": "Paris is missing!",
+      "long": "Did you find Paris?",
+      "img_small": "",
+      "img_large": "",
+      "trade_to_story": {
+        "0": "0",
+        "11": "4"
+      },
+      "visibility": "always"
+    }
+  ],
+  "HUBS": [],
+  "PLAYERS": [
+    {
+      "_id": "0",
+      "name": "Dakota Ortega",
+      "inventory": {
+        "1": "400",
+        "2": "500"
+      },
+      "story_states": {
+        "1": "0"
+      },
+      "hub_states": {
+        "1": "1"
+      }
+    }
+  ]
+}
