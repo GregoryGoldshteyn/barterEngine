@@ -23,7 +23,11 @@ def echoData():
 @app.route("/makeTrade", methods=['GET', 'POST'])
 @cross_origin()
 def makeTradeRoute():
-    return { 'request data': request.data }
+    if tradeRequestIsValid(request.data):
+        attemptedTrade = makeTrade(request.data["playerId"],request.data["tradeId"],request.data["storyId"])
+        if attemptedTrade != False:
+            return attemptedTrade
+    return {'Error' : 'Could not process trade'}
 
 # A trade requires that the player has the required items in inventory
 # If not, this function returns false
@@ -34,10 +38,10 @@ def makeTrade(playerId, tradeId, storyId):
     # Init the dicts
     playerDict = getPlayerById(playerId)
     tradeDict = getTradeById(tradeId)
-    storyId = getStoryById(storyId)
+    storyDict = getStoryById(storyId)
 
     # Make the trade if possible
-    if not tryMakeTrade(playerDict["inventory"], tradeDict["items_in"]):
+    if not tryMakeTrade(playerDict["inventory"], tradeDict["items_in"], tradeDict["items_out"]):
         return False
 
     # The object returned that adds new trades, stories, hubs
@@ -49,6 +53,9 @@ def makeTrade(playerId, tradeId, storyId):
     }
 
     # The new story id from the trade
+    print("-----")
+    print(storyDict)
+    print("-----")
     newStoryId = storyDict["trade_to_story"][tradeId]
 
     # Update story states if required (its trade_to_story isn't 0 or storyId)
@@ -60,7 +67,7 @@ def makeTrade(playerId, tradeId, storyId):
         retDict["STORIES"] += [newStory]
 
         for newTradeId in newStory["trade_to_story"]:
-            newTrade = getTradeById(newTrade)
+            newTrade = getTradeById(newTradeId)
             for itemId in newTrade["items_in"]:
                 retDict["ITEMS"] += getItemById(itemId)
             for itemId in newTrade["items_out"]:
@@ -71,21 +78,16 @@ def makeTrade(playerId, tradeId, storyId):
 
 
 def getPlayerById(id):
-    return getFromDatabaseByCollectionAndId("PLAYERS", id)
+    return database.getObjectFromCollectionById("PLAYERS", id)
 
 def getStoryById(id):
-    return getFromDatabaseByCollectionAndId("STORIES", id)
+    return database.getObjectFromCollectionById("STORIES", id)
 
 def getTradeById(id):
-    return getFromDatabaseByCollectionAndId("TRADES", id)
+    return database.getObjectFromCollectionById("TRADES", id)
 
 def getItemById(id):
-    return getFromDatabaseByCollectionAndId("ITEMS", id)
-
-def getFromDatabaseByCollectionAndId(collection, id):
-    for item in database[collection]:
-        if item["_id"] == id:
-            return item
+    return database.getObjectFromCollectionById("ITEMS", id)
 
 # Returns false if the trade cannot be made
 # Else, makes the trade and returns true
@@ -106,4 +108,13 @@ def tryMakeTrade(inventory, items_in, items_out):
         else:
             inventory[item] = number_of_item
     
+    return True
+
+def tradeRequestIsValid(data):
+    if "storyId" not in data:
+        return False
+    if "playerId" not in data:
+        return False
+    if "tradeId" not in data:
+        return False
     return True

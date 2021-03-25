@@ -6,5 +6,4 @@ import common.constants as CONSTANTS
 db.localCollections = db.loadCollectionsFromFile(CONSTANTS.COLLECTIONS_JSON_FILE)
 
 # placerApp.run()
-
 serverApp.run(port=4999)
