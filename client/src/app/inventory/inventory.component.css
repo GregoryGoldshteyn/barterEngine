@@ -1,3 +1,14 @@
 * {
-    background: #DDDDDD
+    background: #DDDDDD;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    width: 8.333333333333333333%;
+    display: inline-block;
+    border: 1px solid #222244
 }

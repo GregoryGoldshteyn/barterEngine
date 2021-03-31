@@ -6,6 +6,8 @@ from flask_api import FlaskAPI
 from flask_cors import CORS, cross_origin
 from datetime import datetime
 
+from functools import lru_cache
+
 import json
 
 app = FlaskAPI(__name__)
@@ -53,9 +55,6 @@ def makeTrade(playerId, tradeId, storyId):
     }
 
     # The new story id from the trade
-    print("-----")
-    print(storyDict)
-    print("-----")
     newStoryId = storyDict["trade_to_story"][tradeId]
 
     # Update story states if required (its trade_to_story isn't 0 or storyId)
@@ -69,23 +68,29 @@ def makeTrade(playerId, tradeId, storyId):
         for newTradeId in newStory["trade_to_story"]:
             newTrade = getTradeById(newTradeId)
             for itemId in newTrade["items_in"]:
-                retDict["ITEMS"] += getItemById(itemId)
+                retDict["ITEMS"] += [getItemById(itemId)]
             for itemId in newTrade["items_out"]:
-                retDict["ITEMS"] += getItemById(itemId)
-            retDict["TRADES"] += newTrade
+                retDict["ITEMS"] += [getItemById(itemId)]
+            retDict["TRADES"] += [newTrade]
 
     return retDict
 
-
+# Player objects CANNOT be cached
+# This is because they should change during gameplay
 def getPlayerById(id):
     return database.getObjectFromCollectionById("PLAYERS", id)
 
+# Stories, trades, and items can be cached, because they should
+# NOT change over the course of gameplay
+@lru_cache(maxsize=None)
 def getStoryById(id):
     return database.getObjectFromCollectionById("STORIES", id)
 
+@lru_cache(maxsize=None)
 def getTradeById(id):
     return database.getObjectFromCollectionById("TRADES", id)
 
+@lru_cache(maxsize=None)
 def getItemById(id):
     return database.getObjectFromCollectionById("ITEMS", id)
 

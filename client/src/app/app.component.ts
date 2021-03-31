@@ -24,8 +24,12 @@ export class AppComponent implements OnInit {
   }
 
   testPost(){
+    this.makeTrade("0","1","2");
+  }
+
+  makeTrade(playerId, tradeId, storyId){
     const url = 'http://localhost:4999/makeTrade';
-    this.http.post(url, {"playerId" : "0", "tradeId" : "1", "storyId" : "1"}, {responseType: 'json' as const}).subscribe((res) => {
+    this.http.post(url, { "playerId": playerId, "tradeId": tradeId, "storyId": storyId }, { responseType: 'json' as const }).subscribe((res) => {
       this.testData = res
     })
   }

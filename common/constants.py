@@ -18,3 +18,6 @@ COLLECTIONS = [
 
 # File name for local files
 COLLECTIONS_JSON_FILE = "localDB/testDatabases/lemonade.json" # = "localDB/collections.json"
+
+# Info for server ports
+DEFAULT_PORT=4999

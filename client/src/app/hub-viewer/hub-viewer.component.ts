@@ -15,6 +15,18 @@ export class HubViewerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+  }
+
+  ngOnChanges(): void {
+    this.handleUIChangeToHubObject();
+  }
+
+  handleUIChangeToHubObject(): void {
+    if(this.playerData == null)
+    {
+      return;
+    }
   }
 
   getPlayerData() {

@@ -9,6 +9,11 @@ import { HttpClient } from '@angular/common/http';
 export class StoryViewerComponent implements OnInit {
 
   @Input() playerData;
+  @Input() testData;
+
+  public storyTitle;
+  public storyShortDescription;
+  public storyLongDescription;
 
   constructor(private http: HttpClient) { 
     this.getPlayerData()
@@ -16,6 +21,20 @@ export class StoryViewerComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  ngOnChanges(): void {
+    this.handleUIChangeToStoryObject();
+  }
+
+  handleUIChangeToStoryObject(): void {
+    if(this.testData == null)
+    {
+      return;
+    }
+    this.storyTitle = this.testData["STORIES"][0]["name"];
+    this.storyShortDescription = this.testData["STORIES"][0]["short"];
+    this.storyLongDescription = this.testData["STORIES"][0]["long"];
   }
 
   getPlayerData() {
