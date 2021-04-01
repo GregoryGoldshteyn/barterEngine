@@ -6,17 +6,21 @@ import { AppComponent } from './app.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { HubViewerComponent } from './hub-viewer/hub-viewer.component';
 import { StoryViewerComponent } from './story-viewer/story-viewer.component';
+import { TradeButtonComponent } from './trade-button/trade-button.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     InventoryComponent,
     HubViewerComponent,
-    StoryViewerComponent
+    StoryViewerComponent,
+    TradeButtonComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

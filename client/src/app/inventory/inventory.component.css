@@ -1,6 +1,3 @@
-* {
-    background: #DDDDDD;
-}
 
 table {
     border-collapse: collapse;
@@ -8,6 +5,7 @@ table {
 }
 
 td {
+    padding: 0;
     width: 8.333333333333333333%;
     display: inline-block;
     border: 1px solid #222244

@@ -1,0 +1,21 @@
+<ng-template #popTitle>
+    {{tradeData.short}}
+</ng-template>
+<ng-template #popContent>
+    <div *ngIf="(tradeData.items_in | json) !== '{}'">
+        <span>Requires:</span>
+        <ul>
+            <li *ngFor="let item of tradeData.items_in | keyvalue">{{item.value}}x {{itemData[item.key].name}}</li>
+        </ul>
+    </div>
+    <div *ngIf="(tradeData.items_out | json) !== '{}'">
+        <span>Provides:</span>
+        <ul>
+            <li *ngFor="let item of tradeData.items_out | keyvalue">{{item.value}}x {{itemData[item.key].name}}</li>
+        </ul>
+    </div>
+</ng-template>
+<button type="button" class="btn btn-outline-secondary" [ngbPopover]="popContent"
+    triggers="mouseenter:mouseleave" [popoverTitle]="popTitle">
+    {{tradeData.name}}
+</button>

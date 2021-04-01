@@ -1,10 +1,9 @@
 <h2>Story Viewer</h2>
-<p>{{playerData.story_states | json}}</p>
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">{{storyTitle}}</h3>
         <h4 class="card-subtitle mb-2 text-muted">{{storyShortDescription}}</h4>
         <p class="card-text">{{storyLongDescription}}</p>
-        <a href="#" class="card-link">Link</a>
+        <app-trade-button *ngFor="let item of tradeButtonData.trades | keyvalue" [tradeData]="item.value" [itemData]="tradeButtonData.items"></app-trade-button>
     </div>
 </div>

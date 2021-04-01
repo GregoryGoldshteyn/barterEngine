@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, DebugElement } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -15,6 +15,8 @@ export class StoryViewerComponent implements OnInit {
   public storyShortDescription;
   public storyLongDescription;
 
+  public tradeButtonData = {"trades" : {}, "items" : {}};
+
   constructor(private http: HttpClient) { 
     this.getPlayerData()
   }
@@ -24,6 +26,8 @@ export class StoryViewerComponent implements OnInit {
   }
 
   ngOnChanges(): void {
+    console.log("OnChangesCalled");
+    this.generateTradeButtonData();
     this.handleUIChangeToStoryObject();
   }
 
@@ -32,9 +36,26 @@ export class StoryViewerComponent implements OnInit {
     {
       return;
     }
-    this.storyTitle = this.testData["STORIES"][0]["name"];
-    this.storyShortDescription = this.testData["STORIES"][0]["short"];
-    this.storyLongDescription = this.testData["STORIES"][0]["long"];
+    this.storyTitle = this.testData["STORIES"]["3"]["name"];
+    this.storyShortDescription = this.testData["STORIES"]["3"]["short"];
+    this.storyLongDescription = this.testData["STORIES"]["3"]["long"];
+  }
+
+  generateTradeButtonData(): void {
+    if (this.testData == null) {
+      return;
+    }
+    this.tradeButtonData = {"trades" : {}, "items" : {}};
+    for (let tradekey in this.testData["STORIES"]["3"]["trade_to_story"]){
+      let trade = this.testData["TRADES"][tradekey];
+      for(let itemkey in trade["items_in"]){
+        this.tradeButtonData["items"][itemkey] = this.testData["ITEMS"][itemkey]
+      }
+      for (let itemkey in trade["items_out"]) {
+        this.tradeButtonData["items"][itemkey] = this.testData["ITEMS"][itemkey]
+      }
+      this.tradeButtonData["trades"][tradekey] = trade
+    }
   }
 
   getPlayerData() {
