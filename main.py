@@ -1,9 +1,20 @@
 from tools.placer.placer import app as placerApp
 from server.app import app as serverApp
 from threading import Thread
+from server import authenticator
 import common.database as db
 import common.constants as CONSTANTS
 import argparse
+
+authenticator.init()
+
+message = authenticator.testEncode()
+print(message)
+
+decoded = authenticator.testDecode(message)
+print(decoded)
+
+exit(0)
 
 db.localCollections = db.loadCollectionsFromFile(CONSTANTS.COLLECTIONS_JSON_FILE)
 

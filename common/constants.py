@@ -2,6 +2,10 @@
 MONGO_CONNECTION_STRING="mongodb://localhost:27017"
 DEFAULT_DATABASE_NAME="BarterDB"
 
+# Secret key files for server
+PRIVATE_KEY_FILE="privatetestkey.pem"
+PUBLIC_KEY_FILE="publictestkey.ssh"
+
 # Whether the initial load should come from a database or a file
 INIT_FROM_DB = False
 
