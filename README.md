@@ -1,10 +1,16 @@
 # BarterEngine
 A simple game engine based on trading things for other things. Based in part on the quest and item system in "Sunless Sea"
 
-Requires
-- Python 3
-- Flask
-- FlaskAPI
+Server + Tools Require:
+- Python 3 (including these modules)
+  - Flask
+  - FlaskAPI
+  - Cryptography
+  - JWT
+
+Client Requires:
+- NPM
+- Angular 9+
 
 ## Included
 
