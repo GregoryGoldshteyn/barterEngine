@@ -11,6 +11,8 @@ export class AppComponent implements OnInit {
   title = 'client';
   public playerData;// this.getPlayerData();
   public testData;
+  public authData;
+  
   constructor(private http: HttpClient) {
     this.getPlayerData();
     this.testPost();

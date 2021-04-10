@@ -1,19 +1,29 @@
 <div class="container">
-  <div class="row">
-    <app-hub-viewer [playerData]="playerData"></app-hub-viewer>
+  <div class="jumpbotron">
+    <h1 class="display-4">Barter Engine Client</h1>
+    <p class="lead">A tagline, maybe a short summary or foreshadowing</p>
+    <hr class="my-4">
   </div>
-  <div class="row">
-    <div class="col-md-6">
-      <app-inventory [playerData]="playerData"></app-inventory>
+  <div *ngIf="true" class="container">
+    <app-login-page [authData]="authData"></app-login-page>
+  </div>
+  <div *ngIf="false" class="container">
+    <div class="row">
+      <app-hub-viewer [playerData]="playerData"></app-hub-viewer>
     </div>
-    <div class="col-md-6">
-      <app-story-viewer [playerData]="playerData" [testData]="testData"></app-story-viewer>
+    <div class="row">
+      <div class="col-md-6">
+        <app-inventory [playerData]="playerData"></app-inventory>
+      </div>
+      <div class="col-md-6">
+        <app-story-viewer [playerData]="playerData" [testData]="testData"></app-story-viewer>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <p>{{playerData | json}}</p>
-  </div>
-  <div class="row">
-    <p>{{testData | json}}</p>
+    <div class="row">
+      <p>{{playerData | json}}</p>
+    </div>
+    <div class="row">
+      <p>{{testData | json}}</p>
+    </div>
   </div>
 </div>

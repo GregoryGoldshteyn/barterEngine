@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="my-auto mx-auto secret-code-control">
+        <input type="text" class="form-control form-control-lg" placeholder="Secret Code (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)" [(ngModel)]="secretCode" name="secretCode"/>
+    </div>
+    <div class="row my-auto justify-content-around">
+        <div class="col-3">
+            <button class="btn btn-primary btn-lg btn-block" id="new-player-button" (click)="newPlayerClick(newPlayerModal)">New Player?</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-success btn-lg btn-block" id="continue-button" (click)="attemptLogin()">Continue</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #newPlayerModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Welcome!</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-center">This is your secret code! Use it to log back into your game.</p>
+        <p class="text-center">{{secretCode}}</p>
+        <p class="text-center">If you lose it, you also lose all progress. Keep it safe!</p>
+    </div>
+</ng-template>
