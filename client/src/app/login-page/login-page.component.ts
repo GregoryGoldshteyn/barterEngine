@@ -11,11 +11,17 @@ export class LoginPageComponent implements OnInit {
   public newPlayer = true;
   public secretCode = "";
 
+  @Input() authData;
+
   constructor(private modalService: NgbModal) { }
 
   public open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // NOP
+
+    }, (reason) => {
+      console.log(this.authData['loggingIn']);
+      this.authData['loggingIn'] = false;
+      console.log(this.authData['loggingIn']);
     });
   }
 

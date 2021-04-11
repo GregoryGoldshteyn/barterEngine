@@ -9,9 +9,10 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class AppComponent implements OnInit {
   title = 'client';
+
   public playerData;// this.getPlayerData();
   public testData;
-  public authData;
+  public authData = {'loggingIn' : true};
   
   constructor(private http: HttpClient) {
     this.getPlayerData();

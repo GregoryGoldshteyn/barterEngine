@@ -6,16 +6,6 @@ import common.database as db
 import common.constants as CONSTANTS
 import argparse
 
-authenticator.init()
-
-message = authenticator.testEncode()
-print(message)
-
-decoded = authenticator.testDecode(message)
-print(decoded)
-
-exit(0)
-
 db.localCollections = db.loadCollectionsFromFile(CONSTANTS.COLLECTIONS_JSON_FILE)
 
 def runPlacer(port):
