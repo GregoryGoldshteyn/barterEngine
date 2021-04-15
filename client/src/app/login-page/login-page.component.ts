@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -13,7 +14,7 @@ export class LoginPageComponent implements OnInit {
 
   @Input() authData;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private http: HttpClient) { }
 
   public open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -23,6 +24,15 @@ export class LoginPageComponent implements OnInit {
       this.authData['loggingIn'] = false;
       console.log(this.authData['loggingIn']);
     });
+  }
+
+  getPlayerData() {
+    const url = 'http://localhost:4999/placer/login';
+    this.http.post(url, {'secretCode' : this.secretCode}, { responseType: 'json' as const }).subscribe((res) => {
+      if(res['error'] == null){
+        this.authData = res
+      }
+    })
   }
 
   ngOnInit(): void {

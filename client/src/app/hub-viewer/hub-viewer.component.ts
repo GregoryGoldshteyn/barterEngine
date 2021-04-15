@@ -30,7 +30,7 @@ export class HubViewerComponent implements OnInit {
   }
 
   getPlayerData() {
-    const url = 'http://localhost:5000/player/0/hubs';
+    const url = 'http://localhost:4999/placer/player/0/hubs';
     this.http.get(url).subscribe((res) => {
       console.log(res)
       return res

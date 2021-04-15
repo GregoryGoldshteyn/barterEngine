@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   getPlayerData(){
-    const url = 'http://localhost:5000/player/0';
+    const url = 'http://localhost:4999/placer/player/0';
     this.http.get(url, {responseType: 'json' as const}).subscribe((res) => {
       this.playerData = res
     })

@@ -1,4 +1,4 @@
-from tools.placer.placer import app as placerApp
+from tools.placer.placer import placer_tool as placer_blueprint
 from server.app import app as serverApp
 from threading import Thread
 from server import authenticator
@@ -8,26 +8,16 @@ import argparse
 
 db.localCollections = db.loadCollectionsFromFile(CONSTANTS.COLLECTIONS_JSON_FILE)
 
-def runPlacer(port):
-    placerApp.run(port=port)
-
 def runServer(port):
+    serverApp.register_blueprint(placer_blueprint, url_prefix='/placer')
     serverApp.run(port=port)
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
-    
-    parser.add_argument("--target", help="The target app to run. Valid options are 'server' or 'placer'. Defaults to server")
     parser.add_argument("--port", help="The port on which to run the app. Defaults to " + str(CONSTANTS.DEFAULT_PORT), type=int)
     
     args = parser.parse_args()
     
     port = args.port if args.port else CONSTANTS.DEFAULT_PORT
-    
-    if not args.target or args.target == "server":
-        runServer(port)
-    elif args.target == "placer":
-        runPlacer(port)
-    else:
-        print("Invalid target " + args.target)
-        exit(1)
+
+    runServer(port)

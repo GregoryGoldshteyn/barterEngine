@@ -59,7 +59,7 @@ export class StoryViewerComponent implements OnInit {
   }
 
   getPlayerData() {
-    const url = 'http://localhost:5000/player/0/stories';
+    const url = 'http://localhost:4999/placer/player/0/stories';
     this.http.get(url).subscribe((res) => {
       console.log(res)
       return res
