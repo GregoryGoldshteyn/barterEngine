@@ -20,11 +20,23 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private gameLogicService: GameLogicService
   ) {
-    this.playerData = this.gameLogicService.getPlayerData();
-    this.testData = this.gameLogicService.testPost();
+    
+  }
+
+  getPlayerData() {
+    this.gameLogicService.getPlayerData().subscribe(
+      res => this.playerData = res
+    );
+  }
+
+  getTestData() {
+    this.gameLogicService.testPost().subscribe(
+      res =>  this.testData = res
+    );
   }
 
   ngOnInit() {
-    //this.playerData = this.getPlayerData();
+    this.getPlayerData();
+    this.getTestData();
   }
 }

@@ -15,7 +15,7 @@ import { UseHttpsInterceptor } from './auth/use-https.interceptor';
 
 const HttpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: UseHttpsInterceptor, multi: true },
+//  { provide: HTTP_INTERCEPTORS, useClass: UseHttpsInterceptor, multi: true },
 ]
 
 @NgModule({

@@ -10,8 +10,7 @@ export class AuthService {
 
   // Auth things
   login(secret_code) {
-    return this.http.post('http://localhost:4999/login', { secret_code })
-      .subscribe(res => this.setSession);
+    return this.http.post('http://localhost:4999/login', { secret_code });
   }
 
   logout() {
