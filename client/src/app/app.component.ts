@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
+import { AuthService } from './auth/auth.service';
+import { GameLogicService } from './game-logic/game-logic.service';
 
 @Component({
   selector: 'app-root',
@@ -14,27 +16,12 @@ export class AppComponent implements OnInit {
   public testData;
   public authData = {'loggingIn' : true};
   
-  constructor(private http: HttpClient) {
-    this.getPlayerData();
-    this.testPost();
-  }
-
-  getPlayerData(){
-    const url = 'http://localhost:4999/placer/player/0';
-    this.http.get(url, {responseType: 'json' as const}).subscribe((res) => {
-      this.playerData = res
-    })
-  }
-
-  testPost(){
-    this.makeTrade("0","1","2");
-  }
-
-  makeTrade(playerId, tradeId, storyId){
-    const url = 'http://localhost:4999/makeTrade';
-    this.http.post(url, { "playerId": playerId, "tradeId": tradeId, "storyId": storyId }, { responseType: 'json' as const }).subscribe((res) => {
-      this.testData = res
-    })
+  constructor(
+    private authService: AuthService,
+    private gameLogicService: GameLogicService
+  ) {
+    this.playerData = this.gameLogicService.getPlayerData();
+    this.testData = this.gameLogicService.testPost();
   }
 
   ngOnInit() {
