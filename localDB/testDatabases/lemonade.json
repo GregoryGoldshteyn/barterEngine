@@ -134,6 +134,19 @@
       "hub_states": {
         "1": "1"
       }
+    },
+    {
+      "_id": "TEMPLATE",
+      "name": "TEMPLATE",
+      "inventory": {
+        "1": "8"
+      },
+      "story_states": {
+        "1": "0"
+      },
+      "hub_states": {
+        "1": "1"
+      }
     }
   ]
 }

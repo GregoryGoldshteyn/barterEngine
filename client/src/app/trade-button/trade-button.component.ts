@@ -12,14 +12,7 @@ export class TradeButtonComponent implements OnInit {
   @Input() itemData;
 
   constructor() { 
-    // Some test data
-    this.buttonData = {
-      "title" : "Test title",
-      "short" : "This is short description",
-      "in" : {"foo" : "1", "bar" : "1"},
-      "out" : {"foobar" : "1"}
-    }
-
+    // Start empty - a button should never stay empty as soon as buttonData is sent from story component
     this.buttonData = {
       "title": "",
       "short": "",
@@ -32,10 +25,7 @@ export class TradeButtonComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    console.log("---------");
-    console.log(this.tradeData.items_in);
-    console.log(this.tradeData.items_in === {});
-    console.log("---------");
+
   }
 
 }
