@@ -84,7 +84,7 @@ def makeTrade(playerId, tradeId, storyId):
 def getInitialState(playerId):
     playerDict = getPlayerById(playerId)
 
-    retDict = {}
+    retDict = {"PLAYER" : playerDict}
 
     # Get info for all hubs
     for hubId in playerDict["hub_states"]:
