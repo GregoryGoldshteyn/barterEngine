@@ -52,31 +52,12 @@ def makeTrade(playerId, tradeId, storyId):
         return False
 
     # The object returned that adds new trades, stories, hubs
-    retDict = {
-        "STORIES" : {},
-        "TRADES" : {},
-        "ITEMS" : {},
-        "HUBS" : {}
-    }
+    retDict = {}
 
     # The new story id from the trade
     newStoryId = storyDict["trade_to_story"][tradeId]
 
-    # Update story states if required (its trade_to_story isn't 0 or storyId)
-    if newStoryId != "0" and newStoryId != storyId:
-        # The new story
-        newStory = getStoryById(newStoryId)
-        playerDict["story_states"][storyId] = newStoryId
-
-        retDict["STORIES"][newStoryId] = newStory
-
-        for newTradeId in newStory["trade_to_story"]:
-            newTrade = getTradeById(newTradeId)
-            for itemId in newTrade["items_in"]:
-                retDict["ITEMS"][itemId] = getItemById(itemId)
-            for itemId in newTrade["items_out"]:
-                retDict["ITEMS"][itemId] += getItemById(itemId)
-            retDict["TRADES"][newTradeId] = newTrade
+    getAllItemsForStory(newStoryId, retDict)
 
     return retDict
 
