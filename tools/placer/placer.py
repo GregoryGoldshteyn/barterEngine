@@ -195,8 +195,6 @@ def parseHubFromArgs(args):
 
     if retDict['long'] == '':
         retDict['long'] = "This is the hub called " + retDict['name']
-    if retDict['time'] == '':
-        retDict['time'] = 0
 
     formatListStringInDictAsJson(retDict, 'stories')
     formatListStringInDictAsJson(retDict, 'hubs')

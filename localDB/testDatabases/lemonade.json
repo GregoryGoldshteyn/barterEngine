@@ -117,9 +117,61 @@
         "11": "4"
       },
       "visibility": "always"
+    },
+    {
+      "_id": "5",
+      "name": "Hello Paris",
+      "short": "There he is",
+      "long": "How did he find his way all the way back here? In any case, it's a good idea to get him back to the front yard",
+      "img_small": "",
+      "img_large": "",
+      "trade_to_story": {
+        "0": "0",
+        "12": "6"
+      },
+      "visibility": "always"
+    },
+    {
+      "_id": "6",
+      "name": "Got him!",
+      "short": "Back to the front",
+      "long": "There we go! Now let's get you reunited",
+      "img_small": "",
+      "img_large": "",
+      "trade_to_story": {
+        "0": "0"
+      },
+      "visibility": "always"
     }
   ],
-  "HUBS": [],
+  "HUBS": [
+    {
+      "_id": "1",
+      "name": "Front Yard",
+      "short": "The front yard of the house",
+      "long": "TBW",
+      "stories": [
+        "1"
+      ],
+      "hubs": [
+        "2"
+      ],
+      "visibility": "always"
+    },
+    {
+      "_id": "2",
+      "name": "Back Yard",
+      "short": "The back yard of the house",
+      "long": "TBW",
+      "stories": [
+        "5"
+      ],
+      "hubs": [
+        "1"
+      ],
+      "visibility": "always"
+    }
+  ],
   "PLAYERS": [
     {
       "_id": "0",
