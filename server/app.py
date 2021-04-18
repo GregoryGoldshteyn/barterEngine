@@ -31,6 +31,11 @@ def makeTradeRoute():
             return attemptedTrade
     return {'Error' : 'Could not process trade'}
 
+@app.route("/getInitialState/<id>", methods=['GET'])
+@cross_origin()
+def getInitialStateRoute(id):
+    return getInitialState(id)
+
 # A trade requires that the player has the required items in inventory
 # If not, this function returns false
 # If the story is not a store trade:
@@ -75,13 +80,111 @@ def makeTrade(playerId, tradeId, storyId):
 
     return retDict
 
+# Get initial state for a new player
+def getInitialState(playerId):
+    playerDict = getPlayerById(playerId)
+
+    retDict = {}
+
+    # Get info for all hubs
+    for hubId in playerDict["hub_states"]:
+        getAllItemsForHub(hubId, retDict)
+
+    # Get info for all stories
+    for storyId in playerDict["story_states"]:
+        getAllItemsForStory(storyId, retDict)
+
+    # Get info for all items in inventory
+    for itemId in playerDict["inventory"]:
+        getItemInfo(itemId, retDict)
+
+    return retDict
+
+def getAllItemsForHub(hubId, retDict = {}):
+    # Init stories in retDict if not exist
+    if "HUBS" not in retDict:
+        retDict["HUBS"] = {}
+
+    newHub = getHubById(hubId)
+
+    for storyId in newHub["stories"]:
+        getAllItemsForStory(storyId, retDict)
+
+    for hubId in newHub["hubs"]:
+        getHubInfo(hubId, retDict)
+
+    retDict["HUBS"][hubId] = newHub
+
+    return retDict
+
+# Gets the info about a single hub
+# Required to get populate hub data for hubs that point to hubs
+def getHubInfo(hubId, retDict = {}):
+    # Init hubs in retDict if not exist
+    if "HUBS" not in retDict:
+        retDict["HUBS"] = {}
+
+    newHub = getHubById(hubId)
+
+    retDict["HUBS"][hubId] = newHub
+
+    return retDict
+
+def getAllItemsForStory(storyId, retDict = {}):
+    # Init stories in retDict if not exist
+    if "STORIES" not in retDict:
+        retDict["STORIES"] = {}
+
+    newStory = getStoryById(storyId)
+
+    for tradeId in newStory["trade_to_story"]:
+        getAllItemsForTrade(tradeId, retDict)
+
+    retDict["STORIES"][storyId] = newStory
+
+    return retDict
+
+# Modifies a retdict to contain a trade and all items for a trade
+def getAllItemsForTrade(tradeId, retDict = {}):
+    # Init trades and items if they do not exist
+    if "TRADES" not in retDict:
+        retDict["TRADES"] = {}
+    if "ITEMS" not in retDict:
+        retDict["ITEMS"] = {}
+    
+    # Get trade
+    newTrade = getTradeById(tradeId)
+
+    # Get all items for trade
+    for itemId in newTrade["items_in"]:
+        getItemInfo(itemId, retDict)
+    for itemId in newTrade["items_out"]:
+        getItemInfo(itemId, retDict)
+
+    retDict["TRADES"][tradeId] = newTrade
+
+    return retDict
+
+def getItemInfo(itemId, retDict = {}):
+    # Init items if they do not exist
+    if "ITEMS" not in retDict:
+        retDict["ITEMS"] = {}
+    
+    retDict["ITEMS"][itemId] = getItemById(itemId)
+
+    return retDict
+
 # Player objects CANNOT be cached
 # This is because they should change during gameplay
 def getPlayerById(id):
     return database.getObjectFromCollectionById("PLAYERS", id)
 
-# Stories, trades, and items can be cached, because they should
+# Hubs, stories, trades, and items can be cached, because they should
 # NOT change over the course of gameplay
+@lru_cache(maxsize=None)
+def getHubById(id):
+    return database.getObjectFromCollectionById("HUBS", id)
+
 @lru_cache(maxsize=None)
 def getStoryById(id):
     return database.getObjectFromCollectionById("STORIES", id)
