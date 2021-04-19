@@ -8,10 +8,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HubViewerComponent implements OnInit {
 
-  @Input() playerData;
+  @Input() gameData;
 
-  constructor(private http: HttpClient) { 
-    this.getPlayerData()
+  constructor() { 
+
   }
 
   ngOnInit(): void {
@@ -23,18 +23,9 @@ export class HubViewerComponent implements OnInit {
   }
 
   handleUIChangeToHubObject(): void {
-    if(this.playerData == null)
+    if(this.gameData == null)
     {
       return;
     }
   }
-
-  getPlayerData() {
-    const url = 'http://localhost:4999/placer/player/0/hubs';
-    this.http.get(url).subscribe((res) => {
-      console.log(res)
-      return res
-    })
-  }
-
 }

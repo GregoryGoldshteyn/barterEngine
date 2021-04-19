@@ -4,26 +4,10 @@
     <p class="lead">A tagline, maybe a short summary or foreshadowing</p>
     <hr class="my-4">
   </div>
-  <div *ngIf="!authData['loggedIn']" class="container">
-    <app-login-page [authData]="authData"></app-login-page>
+  <div *ngIf="!playerData['loggedIn']" class="container">
+    <app-login-page [playerData]="playerData"></app-login-page>
   </div>
-  <div *ngIf="authData['loggedIn']" class="container">
-    <div class="row">
-      <app-hub-viewer [playerData]="playerData"></app-hub-viewer>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <app-inventory [playerData]="playerData"></app-inventory>
-      </div>
-      <div class="col-md-6">
-        <app-story-viewer [playerData]="playerData" [testData]="testData"></app-story-viewer>
-      </div>
-    </div>
-    <div class="row">
-      <p>{{playerData | json}}</p>
-    </div>
-    <div class="row">
-      <p>{{testData | json}}</p>
-    </div>
+  <div *ngIf="playerData['loggedIn']" class="container">
+    <app-game-container [playerData]="playerData"></app-game-container>
   </div>
 </div>

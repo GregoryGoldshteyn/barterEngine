@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { UseHttpsInterceptor } from './auth/use-https.interceptor';
+import { GameContainerComponent } from './game-container/game-container.component';
 
 const HttpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -25,7 +26,8 @@ const HttpInterceptorProviders = [
     HubViewerComponent,
     StoryViewerComponent,
     TradeButtonComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    GameContainerComponent
   ],
   imports: [
     BrowserModule,

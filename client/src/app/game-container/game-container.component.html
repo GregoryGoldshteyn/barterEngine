@@ -1,0 +1,14 @@
+<div class="row">
+    <app-hub-viewer [gameData]="gameData"></app-hub-viewer>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <app-inventory [gameData]="gameData"></app-inventory>
+    </div>
+    <div class="col-md-6">
+        <app-story-viewer [gameData]="gameData"></app-story-viewer>
+    </div>
+</div>
+<div class="row">
+    <p>{{gameData | json}}</p>
+</div>

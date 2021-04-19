@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, DebugElement } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-story-viewer',
@@ -8,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StoryViewerComponent implements OnInit {
 
-  @Input() playerData;
+  @Input() gameData;
   @Input() testData;
 
   public storyTitle;
@@ -17,8 +16,8 @@ export class StoryViewerComponent implements OnInit {
 
   public tradeButtonData = {"trades" : {}, "items" : {}};
 
-  constructor(private http: HttpClient) { 
-    this.getPlayerData()
+  constructor() { 
+
   }
 
   ngOnInit(): void {
@@ -26,22 +25,16 @@ export class StoryViewerComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    console.log("OnChangesCalled");
     this.generateTradeButtonData();
     this.handleUIChangeToStoryObject();
   }
 
   handleUIChangeToStoryObject(): void {
-    if(this.testData == null)
-    {
-      return;
-    }
-    this.storyTitle = this.testData["STORIES"]["3"]["name"];
-    this.storyShortDescription = this.testData["STORIES"]["3"]["short"];
-    this.storyLongDescription = this.testData["STORIES"]["3"]["long"];
+
   }
 
   generateTradeButtonData(): void {
+    /*
     if (this.testData == null) {
       return;
     }
@@ -56,14 +49,6 @@ export class StoryViewerComponent implements OnInit {
       }
       this.tradeButtonData["trades"][tradekey] = trade
     }
+    */
   }
-
-  getPlayerData() {
-    const url = 'http://localhost:4999/placer/player/0/stories';
-    this.http.get(url).subscribe((res) => {
-      console.log(res)
-      return res
-    })
-  }
-
 }

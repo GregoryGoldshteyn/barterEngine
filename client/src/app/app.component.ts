@@ -11,10 +11,8 @@ import { GameLogicService } from './game-logic/game-logic.service';
 })
 export class AppComponent implements OnInit {
   title = 'client';
-
-  public playerData;// this.getPlayerData();
-  public testData;
-  public authData = {'loggingIn' : true};
+  
+  public playerData = {'loggedIn' : false};
   
   constructor(
     private authService: AuthService,
@@ -23,24 +21,12 @@ export class AppComponent implements OnInit {
     
   }
 
-  getPlayerData() {
-    this.gameLogicService.getPlayerData().subscribe(
-      res => this.playerData = res
-    );
-  }
-
-  getTestData() {
-    this.gameLogicService.testPost().subscribe(
-      res =>  this.testData = res
-    );
-  }
-
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
-      this.authData['loggedIn'] = true;
+      this.playerData['loggedIn'] = true;
     }
     else {
-      this.authData['loggedIn'] = false;
+      this.playerData['loggedIn'] = false;
     }
   }
 }

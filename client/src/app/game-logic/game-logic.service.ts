@@ -9,8 +9,8 @@ export class GameLogicService {
 
   constructor(private http: HttpClient) { }
 
-  public getPlayerData() : Observable<any> {
-    const url = 'http://localhost:4999/placer/player/0';
+  public getGameData(playerId: string) : Observable<any> {
+    const url = 'http://localhost:4999/getInitialState/' + playerId;
     return this.http.get(url, { responseType: 'json' as const });
   }
 

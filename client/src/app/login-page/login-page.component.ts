@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
+import { GameLogicService } from '../game-logic/game-logic.service';
 
 @Component({
   selector: 'app-login-page',
@@ -13,9 +14,10 @@ export class LoginPageComponent implements OnInit {
   public newPlayer = true;
   public secretCode = "";
 
-  @Input() authData;
+  @Input() playerData;
+  @Input() gameData;
 
-  constructor(private modalService: NgbModal, private authService: AuthService) { 
+  constructor(private modalService: NgbModal, private authService: AuthService, private gameLogicService: GameLogicService) { 
     
   }
 
@@ -30,8 +32,9 @@ export class LoginPageComponent implements OnInit {
   attemptLogin() {
     this.authService.login(this.secretCode).subscribe((res) => {
       if (res['Error'] == null) {
-        this.authData['loggedIn'] = true;
+        this.playerData['playerId'] = this.secretCode;
         this.authService.setSession(res);
+        this.playerData['loggedIn'] = true; // Do last, since this component will be disabled on logged in
       }
       else {
 
@@ -40,12 +43,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.authData['loggedIn'] = true;
-    }
-    else {
-      this.authData['loggedIn'] = false;
-    }
+    
   }
 
   newPlayerClick(newPlayerModal): void {
