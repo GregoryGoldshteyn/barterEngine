@@ -10,7 +10,7 @@ export class AuthService {
 
   // Auth things
   login(secret_code) {
-    return this.http.post('http://localhost:4999/login', { secret_code });
+    return this.http.post('http://localhost:4999/authenticator/login', { 'player_id' : secret_code });
   }
 
   logout() {
@@ -19,6 +19,12 @@ export class AuthService {
   }
 
   public isLoggedIn() {
+    if(localStorage.getItem("expires_at") == "undefined"){
+      return false;
+    }
+    if (localStorage.getItem("id_token") == "undefined") {
+      return false;
+    }
     return Date.now() < this.getTokenExpiration();
   }
 
@@ -32,8 +38,9 @@ export class AuthService {
     return parseInt(expiresAt);
   }
 
-  private setSession(authResult) {
-    const expiresAt = Date.now() + 1000 * authResult.expiresIn;
+  public setSession(authResult) {
+    // Sever sends the time since current epoch in seconds. Convert to ms
+    const expiresAt = 1000 * authResult.expiresAt;
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf));
   }

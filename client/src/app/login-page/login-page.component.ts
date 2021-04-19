@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,38 +15,41 @@ export class LoginPageComponent implements OnInit {
 
   @Input() authData;
 
-  constructor(private modalService: NgbModal, private http: HttpClient) { }
+  constructor(private modalService: NgbModal, private authService: AuthService) { 
+    
+  }
 
   public open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
 
     }, (reason) => {
-      console.log(this.authData['loggingIn']);
-      this.authData['loggingIn'] = false;
-      console.log(this.authData['loggingIn']);
+
     });
   }
 
-  getPlayerData() {
-    const url = 'http://localhost:4999/placer/login';
-    this.http.post(url, {'secretCode' : this.secretCode}, { responseType: 'json' as const }).subscribe((res) => {
-      if(res['error'] == null){
-        this.authData = res
+  attemptLogin() {
+    this.authService.login(this.secretCode).subscribe((res) => {
+      if (res['Error'] == null) {
+        this.authData['loggedIn'] = true;
+        this.authService.setSession(res);
       }
-    })
+      else {
+
+      }
+    });
   }
 
   ngOnInit(): void {
-
+    if (this.authService.isLoggedIn()) {
+      this.authData['loggedIn'] = true;
+    }
+    else {
+      this.authData['loggedIn'] = false;
+    }
   }
 
   newPlayerClick(newPlayerModal): void {
     this.secretCode = "12345678-1234-1234-1234-1234567890ab";
     this.open(newPlayerModal);
   }
-
-  attemptLogin(): void {
-
-  }
-
 }

@@ -4,10 +4,10 @@
     <p class="lead">A tagline, maybe a short summary or foreshadowing</p>
     <hr class="my-4">
   </div>
-  <div *ngIf="authData['loggingIn']" class="container">
+  <div *ngIf="!authData['loggedIn']" class="container">
     <app-login-page [authData]="authData"></app-login-page>
   </div>
-  <div *ngIf="!authData['loggingIn']" class="container">
+  <div *ngIf="authData['loggedIn']" class="container">
     <div class="row">
       <app-hub-viewer [playerData]="playerData"></app-hub-viewer>
     </div>

@@ -6,6 +6,10 @@ DEFAULT_DATABASE_NAME="BarterDB"
 PRIVATE_KEY_FILE="privatetestkey.pem"
 PUBLIC_KEY_FILE="publictestkey.ssh"
 
+# Token expiry in seconds
+# Default is 24 hours
+TOKEN_EXPIRY=86400
+
 # Whether the initial load should come from a database or a file
 INIT_FROM_DB = False
 

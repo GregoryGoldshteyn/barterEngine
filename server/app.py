@@ -1,12 +1,11 @@
-from common import database
-from flask import Flask
-from flask import request
-from flask import render_template
+from common import database as db
+from flask import Flask, request, render_template, abort
 from flask_api import FlaskAPI
 from flask_cors import CORS, cross_origin
 from datetime import datetime
 
 from functools import lru_cache
+from server.authenticator import validateToken
 
 import json
 
@@ -22,18 +21,27 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def echoData():
     return { 'request data': request.data }
 
-@app.route("/makeTrade", methods=['GET', 'POST'])
+@app.route("/makeTrade", methods=['POST'])
 @cross_origin()
 def makeTradeRoute():
     if tradeRequestIsValid(request.data):
-        attemptedTrade = makeTrade(request.data["playerId"],request.data["tradeId"],request.data["storyId"])
+        playerId = request.data["playerId"]
+        validation = validateToken(request, playerId)
+        print(validation)
+        if 'Error' in validation:
+            abort(validation['status'], description=validation['Error'])
+        attemptedTrade = makeTrade(playerId,request.data["tradeId"],request.data["storyId"])
         if attemptedTrade != False:
             return attemptedTrade
-    return {'Error' : 'Could not process trade'}
+    abort(400, description='Could not process trade')
 
 @app.route("/getInitialState/<id>", methods=['GET'])
 @cross_origin()
 def getInitialStateRoute(id):
+    validation = validateToken(request, playerId)
+    print(validation)
+    if 'Error' in validation:
+        abort(validation['status'], description=validation['Error'])
     return getInitialState(id)
 
 # A trade requires that the player has the required items in inventory
@@ -43,9 +51,9 @@ def getInitialStateRoute(id):
 #   Return new stories, hubs, trades, items that are unlocked
 def makeTrade(playerId, tradeId, storyId):
     # Init the dicts
-    playerDict = getPlayerById(playerId)
-    tradeDict = getTradeById(tradeId)
-    storyDict = getStoryById(storyId)
+    playerDict = db.getPlayerById(playerId)
+    tradeDict = db.getTradeById(tradeId)
+    storyDict = db.getStoryById(storyId)
 
     # Make the trade if possible
     if not tryMakeTrade(playerDict["inventory"], tradeDict["items_in"], tradeDict["items_out"]):
@@ -63,7 +71,7 @@ def makeTrade(playerId, tradeId, storyId):
 
 # Get initial state for a new player
 def getInitialState(playerId):
-    playerDict = getPlayerById(playerId)
+    playerDict = db.getPlayerById(playerId)
 
     retDict = {"PLAYER" : playerDict}
 
@@ -86,7 +94,7 @@ def getAllItemsForHub(hubId, retDict = {}):
     if "HUBS" not in retDict:
         retDict["HUBS"] = {}
 
-    newHub = getHubById(hubId)
+    newHub = db.getHubById(hubId)
 
     for storyId in newHub["stories"]:
         getAllItemsForStory(storyId, retDict)
@@ -105,7 +113,7 @@ def getHubInfo(hubId, retDict = {}):
     if "HUBS" not in retDict:
         retDict["HUBS"] = {}
 
-    newHub = getHubById(hubId)
+    newHub = db.getHubById(hubId)
 
     retDict["HUBS"][hubId] = newHub
 
@@ -116,7 +124,7 @@ def getAllItemsForStory(storyId, retDict = {}):
     if "STORIES" not in retDict:
         retDict["STORIES"] = {}
 
-    newStory = getStoryById(storyId)
+    newStory = db.getStoryById(storyId)
 
     for tradeId in newStory["trade_to_story"]:
         getAllItemsForTrade(tradeId, retDict)
@@ -134,7 +142,7 @@ def getAllItemsForTrade(tradeId, retDict = {}):
         retDict["ITEMS"] = {}
     
     # Get trade
-    newTrade = getTradeById(tradeId)
+    newTrade = db.getTradeById(tradeId)
 
     # Get all items for trade
     for itemId in newTrade["items_in"]:
@@ -151,32 +159,9 @@ def getItemInfo(itemId, retDict = {}):
     if "ITEMS" not in retDict:
         retDict["ITEMS"] = {}
     
-    retDict["ITEMS"][itemId] = getItemById(itemId)
+    retDict["ITEMS"][itemId] = db.getItemById(itemId)
 
     return retDict
-
-# Player objects CANNOT be cached
-# This is because they should change during gameplay
-def getPlayerById(id):
-    return database.getObjectFromCollectionById("PLAYERS", id)
-
-# Hubs, stories, trades, and items can be cached, because they should
-# NOT change over the course of gameplay
-@lru_cache(maxsize=None)
-def getHubById(id):
-    return database.getObjectFromCollectionById("HUBS", id)
-
-@lru_cache(maxsize=None)
-def getStoryById(id):
-    return database.getObjectFromCollectionById("STORIES", id)
-
-@lru_cache(maxsize=None)
-def getTradeById(id):
-    return database.getObjectFromCollectionById("TRADES", id)
-
-@lru_cache(maxsize=None)
-def getItemById(id):
-    return database.getObjectFromCollectionById("ITEMS", id)
 
 # Returns false if the trade cannot be made
 # Else, makes the trade and returns true

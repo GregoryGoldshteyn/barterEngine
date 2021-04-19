@@ -36,7 +36,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPlayerData();
-    this.getTestData();
+    if (this.authService.isLoggedIn()) {
+      this.authData['loggedIn'] = true;
+    }
+    else {
+      this.authData['loggedIn'] = false;
+    }
   }
 }

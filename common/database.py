@@ -2,6 +2,8 @@ import common.constants as CONSTANTS
 import pymongo
 import json
 
+from functools import lru_cache
+
 # Init database
 
 mongoClient = pymongo.MongoClient(CONSTANTS.MONGO_CONNECTION_STRING)
@@ -38,7 +40,7 @@ def getObjectFromCollectionById(collection, id):
         if len(l) > 0:
             return l[0]
         else:
-            return {"404", "Item not found"}
+            return {"Error" : "Item not found"}
 
 def getAllObjectsInCollection(collection):
     if CONSTANTS.USE_DB:
@@ -51,7 +53,30 @@ def getAllObjectsInCollection(collection):
 
 def addObjectToCollection(collection, obj):
     if CONSTANTS.USE_DB:
-        database.mongoCollections[collection].insert_one( obj )
+        mongoCollections[collection].insert_one( obj )
     else:
         localCollections[collection] += [obj]
     return obj['_id']
+
+# Player objects CANNOT be cached
+# This is because they should change during gameplay
+def getPlayerById(id):
+    return getObjectFromCollectionById("PLAYERS", id)
+
+# Hubs, stories, trades, and items can be cached, because they should
+# NOT change over the course of gameplay
+@lru_cache(maxsize=None)
+def getHubById(id):
+    return getObjectFromCollectionById("HUBS", id)
+
+@lru_cache(maxsize=None)
+def getStoryById(id):
+    return getObjectFromCollectionById("STORIES", id)
+
+@lru_cache(maxsize=None)
+def getTradeById(id):
+    return getObjectFromCollectionById("TRADES", id)
+
+@lru_cache(maxsize=None)
+def getItemById(id):
+    return getObjectFromCollectionById("ITEMS", id)

@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // If token, add it to authorization headers
     if (idToken) {
       const cloned = request.clone({
-        headers: request.headers.set("Authorization", "Bearer " + idToken)
+        headers: request.headers.set("Authorization", idToken)
       });
 
       // Return the new request with authorization token

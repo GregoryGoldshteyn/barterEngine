@@ -1,11 +1,74 @@
 from common import constants
+from common import database as db
+
 import jwt
 import os
+import time
+
 from cryptography.hazmat.primitives import serialization as crypto_serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.backends import default_backend as crypto_default_backend
 
-from flask import Blueprint
+from flask import Blueprint, abort, jsonify, request
+from flask_cors import CORS, cross_origin
+
+authenticator = Blueprint('authenticator', __name__, template_folder='templates')
+
+@authenticator.route("/login", methods=['POST'])
+@cross_origin()
+def loginRoute():
+    if 'private_key'not in keyDict:
+        init()
+
+    if "player_id" not in request.data:
+        abort(404, description="no player id in request body")
+
+    player_id = request.data["player_id"]
+    player = db.getPlayerById(player_id)
+    if 'Error' in player:
+        abort(404, description="player not found")
+
+    # The time the token expires at from current epoch in seconds
+    expires_at = int(time.time()) + constants.TOKEN_EXPIRY
+
+    token = jwt.encode({'algorithm': 'RS256', 'expiresAt' : expires_at, 'player_id': player_id}, keyDict["private_key"], algorithm="RS256")
+    return {
+        'idToken' : token,
+        'expiresAt' : expires_at
+    }
+
+@authenticator.errorhandler(404)
+def resource_not_found(e):
+    return jsonify(error=str(e)), 404
+
+# Method for validating a token against a player id
+def validateToken(request, playerId):
+    if 'private_key'not in keyDict:
+        init()
+
+    token = request.headers.get('Authorization')
+    
+    if token == None:
+        return {'Error' : 'User is not logged in', 'status' : 401}
+    
+    try:
+        decoded_token = jwt.decode(token, keyDict['public_key'], algorithms=["RS256"])
+    except jwt.DecodeError:
+        return {'Error' : 'Token is invalid, could not be parsed', 'status' : 400}
+
+    
+    if 'player_id' not in decoded_token:
+        return {'Error' : 'Token is invalid, no player_id issued in token', 'status' : 400}
+    if 'expiresAt' not in decoded_token:
+        return {'Error' : 'Token is invalid, no expiry issued in token', 'status' : 400}
+
+    if(decoded_token['player_id'] != playerId):
+        return {'Error' : 'Unauthorized; player is attempting to make request on other player behalf', 'status' : 403}
+    if(int(decoded_token['expiresAt']) < int(time.time())):
+        return {'Error' : 'Token expired. Please login again', 'status' : 401}
+
+    return {'Success'}
+
 
 # Stores keys once generated or loaded from file
 keyDict = {}
