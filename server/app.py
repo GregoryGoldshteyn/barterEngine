@@ -38,7 +38,7 @@ def makeTradeRoute():
 @app.route("/getInitialState/<id>", methods=['GET'])
 @cross_origin()
 def getInitialStateRoute(id):
-    validation = validateToken(request, playerId)
+    validation = validateToken(request, id)
     print(validation)
     if 'Error' in validation:
         abort(validation['status'], description=validation['Error'])
